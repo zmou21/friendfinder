@@ -257,11 +257,9 @@
     </div>
 
 
-
-
     <!-- submit survey questions -->
     <div class="">
-      <a href="survey.html"><button type="button" class="btn btn-default btn-lg main">Submit</button></a>
+      <button type="button" class="btn btn-default btn-lg main" id="submit">Submit</button>
     </div>
 
     <!-- links to JSON files -->
@@ -275,7 +273,39 @@
   </div>
 
   <script type="text/javascript">
-    
+
+    $(document).ready(function() {
+
+      $("#submit").on("click", function() {
+        event.preventDefault();
+
+        var friendsData = {
+          "userName": $("#user-name").val().trim(),
+          "link": $("#image-link").val().trim(),
+          scores: [
+            $("#q1").val(),
+            $("#q2").val(),
+            $("#q3").val(),
+            $("#q4").val(),
+            $("#q5").val(),
+            $("#q6").val(),
+            $("#q7").val(),
+            $("#q8").val(),
+            $("#q9").val(),
+            $("#q10").val()
+          ]
+          };
+
+        $.post("/api/friends", friendsData)
+        .then(function(data) {
+          console.log(data);
+          alert("Friend added")
+        })
+
+      });
+
+    });
+
   </script>
 
 </body>
