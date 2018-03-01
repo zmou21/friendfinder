@@ -30,6 +30,44 @@
       text-align: left;
       margin-bottom: 1%;
     }
+    /* modal styling */
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -258,9 +296,32 @@
 
 
     <!-- submit survey questions -->
-    <div class="">
+    <div class="button">
       <button type="button" class="btn btn-default btn-lg main" id="submit">Submit</button>
     </div>
+
+    <!-- modal file to show image and new friend -->
+
+    <div id="results-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h2 class="modal-title"><strong>Best Match</strong></h2>
+        </div>
+        <div class="modal-body">
+          <h2 id="match-name"></h2>
+          <img id="match-img" src="https://pbs.twimg.com/profile_images/960928326650073090/taCiau5W_400x400.jpg" alt="man sitting">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
     <!-- links to JSON files -->
     <div class="row">
@@ -296,17 +357,24 @@
 
         var newFriend = {
           name: $("#user-name").val().trim(),
-          link: $("#image-link").val().trim(),
+          photo: $("#image-link").val().trim(),
           score: JSON.stringify(score)
           };
 
         console.log(score);
 
-        $.post("/api/new", newFriend)
-        .then(function(data) {
-          console.log(data);
-          alert("Friend added")
-        })
+        $.post("/api/friends", newFriend, function(data) {
+          //console.log(data);
+          $("#match-name").text(data.name);
+          $("#match-img").attr("src", data.photo);
+
+          // Show the modal with the best match
+          $("#results-modal").modal("toggle");
+        });
+        // .then(function(data) {
+        //
+        //
+        // })
 
       });
 
