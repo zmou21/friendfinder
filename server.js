@@ -1,11 +1,11 @@
   //Dependencies
   var express = require("express");
-  var bodyParser = require("bodyparser");
+  var bodyParser = require("body-parser");
   var path = require("path");
 
   // Sets up the Express App
   var app = express();
-  var PORT = process.env.PORT || 3000;
+  var PORT = 3000;
 
   // Sets up the Express app to handle data parsing
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,18 +14,21 @@
   // require("./routing/apiRoutes")(app);
   // require("./routing/htmlroutes")(app);
 
-  var friendsData = [];
+  let friendsData;
+  let friendScoreArr;
+  let friendArr = [];
 
   // HTML GET Requests (htmlroutes.js)
   // Below code handles when users "visit" a page.
   // In each of the below cases the user is shown an HTML page of content
-  app.get("/", function(req, res) {
-    res.sendFile(path.join(_dirname, "../public/home.html"));
-  })
 
-  app.get("/survey", function(req, res) {
-    res.sendFile(path.join(_dirname, "../public/survey.html"));
-  })
+    app.get("/", function(req, res) {
+      res.sendFile(path.join(__dirname, "app/public/home.html"));
+    });
+
+    app.get("/survey", function(req, res) {
+      res.sendFile(path.join(__dirname, "app/public/survey.html"));
+    });
 
   // API GET Requests (apiroutes.js)
   // Below code handles when users "visit" a page.
@@ -35,12 +38,43 @@
   });
 
 
-  app.post("..", function(req, res) {
+  app.post("/api/new", function(req, res) {
     //"server" will respond to requests and let users know if they have a table or not.
     // app.post() will have functionality to tally up the scores and compare them to users in friends.js array and will append it
+
+    var newFriend = req.body;
+
+    friendsData.push(newFriend);
+
+    friendCompatability();
+
+    friendsData[0].score = "";
+
+    let score = friendArr;
+
+    friendsData[0].score = score;
+
+    console.log("___________");
+    console.log(friendsData);
+
+
   });
 
+  function friendCompatability() {
 
+      let friendScore = friendsData[0].score;
+
+      friendScore = friendScore.replace(/[\[\]"]+/g,"");
+
+      let friendScoreArr = friendScore.split(",");
+
+      for(let i = 0; i < friendScoreArr.length; i++){
+        let friend = parseInt(friendScoreArr[i]);
+        //console.log("This is score = " + friend);
+        friendArr.push(friend);
+      }
+
+  };
 
   //The below code effectively "starts" our server
   app.listen(PORT, function() {
