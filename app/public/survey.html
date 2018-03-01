@@ -272,6 +272,8 @@
     </div>
   </div>
 
+  <!-- link placeholder -->
+  <!-- http://thesundry.com/wp-content/uploads/2017/12/person-placeholder.jpg -->
   <script type="text/javascript">
 
     $(document).ready(function() {
@@ -279,24 +281,28 @@
       $("#submit").on("click", function() {
         event.preventDefault();
 
-        var friendsData = {
-          "userName": $("#user-name").val().trim(),
-          "link": $("#image-link").val().trim(),
-          scores: [
-            $("#q1").val(),
-            $("#q2").val(),
-            $("#q3").val(),
-            $("#q4").val(),
-            $("#q5").val(),
-            $("#q6").val(),
-            $("#q7").val(),
-            $("#q8").val(),
-            $("#q9").val(),
-            $("#q10").val()
-          ]
+        var score = [
+                      $("#q1").val(),
+                      $("#q2").val(),
+                      $("#q3").val(),
+                      $("#q4").val(),
+                      $("#q5").val(),
+                      $("#q6").val(),
+                      $("#q7").val(),
+                      $("#q8").val(),
+                      $("#q9").val(),
+                      $("#q10").val()
+                    ];
+
+        var newFriend = {
+          name: $("#user-name").val().trim(),
+          link: $("#image-link").val().trim(),
+          score: JSON.stringify(score)
           };
 
-        $.post("/api/friends", friendsData)
+        console.log(score);
+
+        $.post("/api/new", newFriend)
         .then(function(data) {
           console.log(data);
           alert("Friend added")
