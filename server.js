@@ -54,7 +54,6 @@
 
   // HTML GET Requests (htmlroutes.js)
   // Below code handles when users "visit" a page.
-  // In each of the below cases the user is shown an HTML page of content
 
     app.get("/", function(req, res) {
       res.sendFile(path.join(__dirname, "app/public/home.html"));
@@ -64,9 +63,6 @@
       res.sendFile(path.join(__dirname, "app/public/survey.html"));
     });
 
-  // API GET Requests (apiroutes.js)
-  // Below code handles when users "visit" a page.
-  // In each of the below cases when a user visits a link
   app.get("/api/friends", function(req, res) {
     res.json(friendsData);
   });
@@ -90,6 +86,8 @@
 
     let friendsArr = friendsData[0].score;
 
+    //console.log(friendsArr);
+
     let matchName = "";
     let matchImage = "";
 
@@ -102,11 +100,13 @@
       //loop through each individual score and subtract the values together
       for(let j = 0; j < friendsArr.length; j++){
         //console.log(friendsData[i].score[j]);
-        difference += Math.abs(friends[i].score[j] - friendsArr);
+        difference += Math.abs(friends[i].score[j] - friendsArr[j]);
+        console.log("..." + difference);
       }
 
       if (difference < totalDifference) {
         totalDifference = difference;
+        console.log(totalDifference);
         matchName = friends[i].name;
         matchImage = friends[i].link;
         console.log(matchName + " " + matchImage);
@@ -126,7 +126,7 @@
 
       for(let i = 0; i < friendScoreArr.length; i++){
         let friend = parseInt(friendScoreArr[i]);
-        console.log("This is score = " + friend);
+        //console.log("This is score = " + friend);
         friendArr.push(friend);
       }
 
