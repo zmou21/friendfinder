@@ -14,7 +14,41 @@
   // require("./routing/apiRoutes")(app);
   // require("./routing/htmlroutes")(app);
 
-  let friendsData;
+  let friends = [
+    {
+      name: "Stacey",
+      link: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+      score: [
+          5,
+          1,
+          4,
+          4,
+          5,
+          1,
+          2,
+          5,
+          4,
+          1
+      ]
+    },
+    {
+      name: "Harry",
+      link: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+      score:[
+          3,
+          1,
+          4,
+          1,
+          1,
+          2,
+          2,
+          5,
+          2,
+          1
+      ]
+    }
+  ];
+  let friendsData = [];
   let friendScoreArr;
   let friendArr = [];
 
@@ -47,16 +81,38 @@
     friendsData.push(newFriend);
 
     friendCompatability();
-
     friendsData[0].score = "";
-
-    let score = friendArr;
-
+    const score = friendArr;
     friendsData[0].score = score;
 
-    console.log("___________");
-    console.log(friendsData);
+    //console.log("___________");
+    //console.log(friendsData[2]);
 
+    let friendsArr = friendsData[0].score;
+
+    let matchName = "";
+    let matchImage = "";
+
+    let totalDifference = 50;
+
+    //loop through friendsData
+    for(let i = 0; i < friends.length; i++) {
+
+      let difference = 0;
+      //loop through each individual score and subtract the values together
+      for(let j = 0; j < friendsArr.length; j++){
+        //console.log(friendsData[i].score[j]);
+        difference += Math.abs(friends[i].score[j] - friendsArr);
+      }
+
+      if (difference < totalDifference) {
+        totalDifference = difference;
+        matchName = friends[i].name;
+        matchImage = friends[i].link;
+        console.log(matchName + " " + matchImage);
+      }
+
+    }
 
   });
 
@@ -70,7 +126,7 @@
 
       for(let i = 0; i < friendScoreArr.length; i++){
         let friend = parseInt(friendScoreArr[i]);
-        //console.log("This is score = " + friend);
+        console.log("This is score = " + friend);
         friendArr.push(friend);
       }
 
