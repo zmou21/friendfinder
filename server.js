@@ -17,7 +17,7 @@
   let friends = [
     {
       name: "Stacey",
-      link: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+      photo: "https://s-s.huffpost.com/contributors/demetra-gregorakis/headshot.jpg",
       score: [
           5,
           1,
@@ -28,22 +28,6 @@
           2,
           5,
           4,
-          1
-      ]
-    },
-    {
-      name: "Harry",
-      link: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
-      score:[
-          3,
-          1,
-          4,
-          1,
-          1,
-          2,
-          2,
-          5,
-          2,
           1
       ]
     }
@@ -64,11 +48,12 @@
     });
 
   app.get("/api/friends", function(req, res) {
+    res.json(friends);
     res.json(friendsData);
   });
 
 
-  app.post("/api/new", function(req, res) {
+  app.post("/api/friends", function(req, res) {
     //"server" will respond to requests and let users know if they have a table or not.
     // app.post() will have functionality to tally up the scores and compare them to users in friends.js array and will append it
 
@@ -101,18 +86,20 @@
       for(let j = 0; j < friendsArr.length; j++){
         //console.log(friendsData[i].score[j]);
         difference += Math.abs(friends[i].score[j] - friendsArr[j]);
-        console.log("..." + difference);
+        //console.log("..." + difference);
       }
 
       if (difference < totalDifference) {
         totalDifference = difference;
         console.log(totalDifference);
         matchName = friends[i].name;
-        matchImage = friends[i].link;
-        console.log(matchName + " " + matchImage);
+        matchImage = friends[i].photo;
+        //console.log(matchName + " " + matchImage);
       }
 
     }
+
+    res.json({status: 'OK', matchName: matchName, matchImage: matchImage});
 
   });
 
@@ -136,3 +123,21 @@
   app.listen(PORT, function() {
     console.log("App listening on PORT: " + PORT);
   });
+
+
+  // {
+  //   name: "Harry",
+  //   photo: "https://www.fosi.org/media/images/Beckley_Fred_1_copy.9a3ceee7.fill-400x400.jpg",
+  //   score:[
+  //       3,
+  //       1,
+  //       4,
+  //       1,
+  //       1,
+  //       2,
+  //       2,
+  //       5,
+  //       2,
+  //       1
+  //   ]
+  // }
